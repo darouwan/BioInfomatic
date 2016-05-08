@@ -13,7 +13,7 @@ all_file = open(all, 'r')
 sam_file = open(sam, 'r')
 lines = sam_file.readlines()
 sam_dict = {}
-
+len_sam = 0
 for line in lines:
     items = line.strip().split('\t')
     # print items
@@ -25,9 +25,10 @@ for line in lines:
             sam_dict[chrn].append(int(pos))
         else:
             sam_dict[chrn] = [int(pos)]
+        len_sam += 1
 
-for key in sam_dict.keys():
-    print key, len(sam_dict[key])
+# for key in sam_dict.keys():
+#      print key, len(sam_dict[key])
 
 result_dict = {}
 all_dict = {}
@@ -42,6 +43,8 @@ for line in all_file.readlines():
     if items[2] == 'gene':
         start = int(items[3])
         id = items[8].split(':')[0]
+        if id.find('retrotransposon') >= 0 or id.find('transporter') >= 0:
+            continue
 
         if not result_dict.has_key(id):
             result_dict[id] = [0] * 50
@@ -51,8 +54,8 @@ for line in all_file.readlines():
         else:
             all_dict[items[0]] = [(int(start), id)]
 
-for key in all_dict.keys():
-    print key, len(all_dict[key])
+# for key in all_dict.keys():
+#     print key, len(all_dict[key])
 
 print '\r\n'
 
@@ -72,8 +75,8 @@ for key in sam_dict.keys():
                 # the position in 20bp*50
                 div = (pos - s) / 20
                 if result_dict.has_key(id):
-                    result_dict[id][div] += 1
-                    print id, pos
+                    result_dict[id][div] += 1 / len_sam
+                    # print id, pos
                     # else:
                     #     result_dict[id]=[0]*50
                     #     result_dict[id][div]=1
