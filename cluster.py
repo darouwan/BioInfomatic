@@ -7,7 +7,7 @@ if len(sys.argv) >= 2:
     all = sys.argv[1]
     sam = sys.argv[2]
 
-print 'All file:', all, '\r\n', 'Sam file:', sam
+# print 'All file:', all, '\r\n', 'Sam file:', sam
 
 all_file = open(all, 'r')
 sam_file = open(sam, 'r')
@@ -15,6 +15,8 @@ lines = sam_file.readlines()
 sam_dict = {}
 len_sam = 0
 for line in lines:
+    if line.startswith('@'):
+        continue
     items = line.strip().split('\t')
     # print items
     chrn = items[2]
@@ -57,21 +59,22 @@ for line in all_file.readlines():
 # for key in all_dict.keys():
 #     print key, len(all_dict[key])
 
-print '\r\n'
+
+#print '\r\n'
 
 for key in sam_dict.keys():
-    print key
+    #print key
 
     reads = sam_dict[key]
     group = all_dict[key]
     for pos in reads:
-        print 'Group=', group
+        #print 'Group=', group
         for start, id in group:
             s = start - 1000
             e = start
-            print 'Start=', start, 'id=', id, 's=', s, 'e=', e
+            #print 'Start=', start, 'id=', id, 's=', s, 'e=', e
             if pos < e and pos >= s:
-                print start, s, e
+                #print start, s, e
                 # the position in 20bp*50
                 div = (pos - s) / 20
                 if result_dict.has_key(id):
@@ -82,7 +85,7 @@ for key in sam_dict.keys():
                     #     result_dict[id][div]=1
                     #     print result_dict
 # print result_dict
-
+# OutPut tab separated file
 print 'YORF\t',
 
 for i in range(0, 50):
