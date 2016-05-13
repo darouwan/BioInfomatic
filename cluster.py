@@ -29,6 +29,7 @@ for line in lines:
             sam_dict[chrn] = [int(pos)]
         len_sam += 1
 
+len_sam = float(len_sam)
 # for key in sam_dict.keys():
 #      print key, len(sam_dict[key])
 
@@ -58,9 +59,7 @@ for line in all_file.readlines():
 
 # for key in all_dict.keys():
 #     print key, len(all_dict[key])
-
-
-#print '\r\n'
+#print '\r\'
 
 for key in sam_dict.keys():
     #print key
@@ -78,6 +77,7 @@ for key in sam_dict.keys():
                 # the position in 20bp*50
                 div = (pos - s) / 20
                 if result_dict.has_key(id):
+
                     result_dict[id][div] += 1 / len_sam
                     # print id, pos
                     # else:
