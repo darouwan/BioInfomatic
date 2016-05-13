@@ -77,8 +77,7 @@ for key in sam_dict.keys():
                 # the position in 20bp*50
                 div = (pos - s) / 20
                 if result_dict.has_key(id):
-
-                    result_dict[id][div] += 1 / len_sam
+                    result_dict[id][div] += 1
                     # print id, pos
                     # else:
                     #     result_dict[id]=[0]*50
@@ -95,6 +94,11 @@ print ''
 for key in result_dict.keys():
     print key, '\t',
     a = result_dict[key]
-    for i in range(0, 50):
-        print a[i], '\t',
+    total = float(sum(a))
+    if total == 0:
+        for i in range(0, 50):
+            print a[i], '\t',
+    else:
+        for i in range(0, 50):
+            print a[i] / total, '\t',
     print ''
