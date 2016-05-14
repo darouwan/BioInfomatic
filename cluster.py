@@ -32,7 +32,8 @@ for line in lines:
 len_sam = float(len_sam)
 # for key in sam_dict.keys():
 #      print key, len(sam_dict[key])
-
+windows_size = 50
+windows_count = 40
 result_dict = {}
 all_dict = {}
 
@@ -50,7 +51,7 @@ for line in all_file.readlines():
             continue
 
         if not result_dict.has_key(id):
-            result_dict[id] = [0] * 50
+            result_dict[id] = [0] * windows_count
 
         if all_dict.has_key(items[0]):
             all_dict[items[0]].append((int(start), id))
@@ -70,12 +71,12 @@ for key in sam_dict.keys():
         #print 'Group=', group
         for start, id in group:
             s = start - 1000
-            e = start
+            e = start + 1000
             #print 'Start=', start, 'id=', id, 's=', s, 'e=', e
             if pos < e and pos >= s:
                 #print start, s, e
                 # the position in 20bp*50
-                div = (pos - s) / 20
+                div = (pos - s) / windows_size
                 if result_dict.has_key(id):
                     result_dict[id][div] += 1
                     # print id, pos
@@ -87,7 +88,7 @@ for key in sam_dict.keys():
 # OutPut tab separated file
 print 'YORF\t',
 
-for i in range(0, 50):
+for i in range(0, windows_count):
     print i, '\t',
 print ''
 
@@ -96,9 +97,9 @@ for key in result_dict.keys():
     a = result_dict[key]
     total = float(sum(a))
     if total == 0:
-        for i in range(0, 50):
+        for i in range(0, windows_count):
             print a[i], '\t',
     else:
-        for i in range(0, 50):
+        for i in range(0, windows_count):
             print a[i] / total, '\t',
     print ''
